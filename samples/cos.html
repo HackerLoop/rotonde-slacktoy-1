@@ -1,0 +1,35 @@
+<html>
+  <head>
+    <script src='https://code.jquery.com/jquery-2.2.1.min.js'></script>
+    <script src='./rotonde-client.js'></script>
+    <script>
+      const client = rotonde.newClient('ws://rotonde:4224');
+
+      client.onReady(() => {
+        client.bootstrap({}, [], ['SLACKTOY_1_MOVE']).then(() => {
+          console.log('pouet');
+          $('body').on('mousemove', (event) => {
+            const width = $(window).width();
+            const height = $(window).height();
+            console.log(event.pageX + ", " + event.pageY);
+            client.sendAction('SLACKTOY_1_MOVE', {
+              x: 180 - event.pageX / width * 180,
+              y: 180 - event.pageY / height * 180,
+            });
+          });
+        });
+      });
+
+      client.connect();
+    </script>
+    <style>
+      html, body {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    poeut
+  </body>
+</html>
